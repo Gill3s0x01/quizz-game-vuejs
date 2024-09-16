@@ -7,13 +7,18 @@
         <input
           type="radio"
           name="options"
-          value="answer"
+          :value="answer"
+          v-model="this.chosen_answer"
         >
         <label v-html="answer"></label><br>
       </template>
+      <button
+        class="send"
+        type="button"
+        @click="this.sendAnswer()"
+      >Enviar</button>
     </template>
   </div>
-  <button class="send" type="button">Enviar</button>
 </template>
 
 <script>
@@ -26,6 +31,7 @@ export default {
       question: undefined,
       correctAnswer: undefined,
       incorrectAnswer: undefined,
+      chosen_answer: undefined,
     };
   },
   computed: {
@@ -33,6 +39,19 @@ export default {
       const answers = [...this.incorrectAnswer];
       answers.splice(Math.round(Math.random()), 0, this.correctAnswer);
       return answers;
+    },
+  },
+  methods: {
+    sendAnswer() {
+      if (!this.chosen_answer) {
+        alert('Please choose an answer');
+        return;
+      }
+      if (this.chosen_answer === this.correctAnswer) {
+        alert('You got it right');
+      } else {
+        alert('You got it wrong');
+      }
     },
   },
   created() {
